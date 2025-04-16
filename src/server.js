@@ -13,11 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 // Allow express to parse JSON content properly
 app.use(json());
 
+// Listen for requests
+app.listen(8080, () => {
+  console.log("Server is listening on port 8080");
+});
+
 // Routes
 app.use("/api/smm", router);
 
 // Catch-all route
-app.use("*", (_, res) => {
+app.use("/", (_, res) => {
   res.status(404).json({
     message: "Sorry, this route doesn't exist",
   });
