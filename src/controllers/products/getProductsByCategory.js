@@ -2,35 +2,37 @@ import prisma from "../../lib/client.js";
 
 export default async function getProductsByCategory(req, res) {
   try {
-    // get the products' category from query params
+    // Get the product category from query params
     const { category } = req.query;
 
     if (!category) {
-      res.status(500).json({
+      return res.status(400).json({
         message: "Category was not provided",
       });
     }
 
-    // Find a products matching the category
-    // const productsExist =
+    // Find products matching the category
+    const products = await prisma.product.findMany({
+      where: {
+        category: {
+          equals: category,
+          mode: "insensitive", // case-insensitive match
+        },
+      },
+    });
 
-    // If the products exist...
-    // if(products) {
-    // ...return them
-    // }
+    // If products exist, return them
+    if (products.length > 0) {
+      return res.json(products);
+    }
 
-    // Otherwise
-    // Return a not found message
-    // res.status(404).json({
-    //     message: "Product not found"
-    // })
-
-    res.send("Yep, everything seems okay here ");
+    // Otherwise, return a not found message
+    return res.status(404).json({
+      message: "No products found in this category",
+    });
   } catch (e) {
-    console.log("An error occured while fetching products by category: ", e);
+    console.log("An error occurred while fetching products by category:", e);
 
-    res
-      .status(500)
-      .send("An error occured while fetching products by category");
+    res.status(500).send("An error occurred while fetching products by category");
   }
 }
