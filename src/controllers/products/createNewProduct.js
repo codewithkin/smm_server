@@ -19,8 +19,6 @@ export default async function createNewProduct(req, res) {
       condition,
       isFeatured,
       isNewArrival,
-      createdAt,
-      updatedAt,
     } = req.body;
 
     // Check if the required fields are provided
@@ -36,17 +34,12 @@ export default async function createNewProduct(req, res) {
       !color ||
       !network ||
       !simType ||
-      !condition ||
-      !createdAt ||
-      !updatedAt
+      !condition
     ) {
       return res.status(400).json({
         message: "Missing required product data",
       });
     }
-
-    // Assuming the images are an array of URLs, for the sake of example, we will proceed with storing them
-    // You can also add logic here to handle background removal or upload to Cloudflare R1
 
     // Create a new product in the database
     const newProduct = await prisma.product.create({
@@ -66,8 +59,6 @@ export default async function createNewProduct(req, res) {
         condition,
         isFeatured,
         isNewArrival,
-        createdAt,
-        updatedAt,
       },
     });
 
@@ -75,7 +66,6 @@ export default async function createNewProduct(req, res) {
     res.status(201).json(newProduct);
   } catch (e) {
     console.log("Could not create new product: ", e);
-
     res.status(500).send("Could not create new product");
   }
 }
