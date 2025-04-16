@@ -2,20 +2,19 @@ import prisma from "../../lib/client.js";
 
 export default async function getAllProducts(req, res) {
   try {
-    // Get all products from the database
+    const { limit = 10, offset = 0 } = req.query;
+
     const products = await prisma.product.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+      orderBy: { createdAt: "desc" },
+      skip: Number(offset),
+      take: Number(limit),
     });
 
-    // Return products
-    res.json(products);
+    const total = await prisma.product.count();
+
+    res.json({ products, total });
   } catch (e) {
-    console.error("An error occurred while getting all products: ", e);
-
-    res.status(500).send({
-      message: "An error occurred while getting all products",
-    });
+    console.error("Error fetching all products:", e);
+    res.status(500).json({ message: "An error occurred" });
   }
 }
