@@ -7,7 +7,7 @@ const app = express();
 // Middleware
 
 // Log requests (useful for dev debugging)
-app.use(morgan(":combined"));
+app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
 
 // Allow express to parse JSON content properly
