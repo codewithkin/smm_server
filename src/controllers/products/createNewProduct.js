@@ -24,7 +24,22 @@ export default async function createNewProduct(req, res) {
     } = req.body;
 
     // Check if the required fields are provided
-    if (!name || !slug || !brand || !description || !price || !inStock || !images || !storage || !color || !network || !simType || !condition || !createdAt || !updatedAt) {
+    if (
+      !name ||
+      !slug ||
+      !brand ||
+      !description ||
+      !price ||
+      !inStock ||
+      !images ||
+      !storage ||
+      !color ||
+      !network ||
+      !simType ||
+      !condition ||
+      !createdAt ||
+      !updatedAt
+    ) {
       return res.status(400).json({
         message: "Missing required product data",
       });

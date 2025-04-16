@@ -26,8 +26,8 @@ export default async function getProductsByPrice(req, res) {
     const products = await prisma.product.findMany({
       where: {
         price: {
-          gte: minPrice,  // Greater than or equal to min price
-          lte: maxPrice,  // Less than or equal to max price
+          gte: minPrice, // Greater than or equal to min price
+          lte: maxPrice, // Less than or equal to max price
         },
       },
     });

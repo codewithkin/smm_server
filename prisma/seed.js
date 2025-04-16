@@ -38,7 +38,8 @@ async function seed() {
         brand: faker.company.companyName(),
         description: faker.lorem.paragraph(),
         price: parseFloat(faker.commerce.price()),
-        discountPrice: Math.random() < 0.5 ? parseFloat(faker.commerce.price()) : null,
+        discountPrice:
+          Math.random() < 0.5 ? parseFloat(faker.commerce.price()) : null,
         inStock: faker.datatype.number({ min: 10, max: 100 }),
         images: [imageURLs[i % imageURLs.length]], // Use an array with random image links
         storage: faker.random.arrayElement(["128GB", "256GB", "512GB"]),
