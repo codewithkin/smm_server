@@ -16,7 +16,7 @@ app.use(json());
 app.use("/api/smm", router);
 
 // Catch-all route
-app.use("*", (req, res) => {
+app.use("*", (_, res) => {
     res.status(404).json({
         message: "Sorry, this route doesn't exist"
     })
