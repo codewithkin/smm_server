@@ -13,7 +13,7 @@ export default async function getAllProducts (req, res) {
     } catch (e) {
         console.log("An error occured while getting all products: ", e);
 
-        res.send({
+        res.status(500).send({
             message: "An error occured while getting all products"
         })
     }

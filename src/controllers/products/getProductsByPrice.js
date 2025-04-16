@@ -20,7 +20,7 @@ export default async function getProductsByPrice (req, res) {
     } catch (e) {
         console.log("An error occured while fetching products: ", e);
 
-        res.json({
+        res.status(500).json({
             message: "An error occured while fetching products"
         })
     }

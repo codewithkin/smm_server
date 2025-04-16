@@ -27,6 +27,6 @@ export default async function getProductsByCategory(req, res) {
     }  catch (e) {
         console.log("An error occured while fetching products by category: ", e);
 
-        res.send("An error occured while fetching products by category");
+        res.status(500).send("An error occured while fetching products by category");
     }
 }

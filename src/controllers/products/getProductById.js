@@ -27,6 +27,6 @@ export default async function getProductById (req, res) {
     } catch (e) {
         console.log("An error occured while fetching product by id: ", e);
 
-        res.send("An error occured while fetching product by id");
+        res.status(500).send("An error occured while fetching product by id");
     }
 }
