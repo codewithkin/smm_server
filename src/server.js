@@ -1,6 +1,7 @@
 import express, { json } from "express";
 import { router } from "./routes/main.js";
 import morgan from "morgan";
+import cors from "cors";
 
 const app = express();
 
@@ -9,6 +10,9 @@ const app = express();
 // Log requests (useful for dev debugging)
 app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
+
+// Allow cross-origin requests
+app.use(cors())
 
 // Allow express to parse JSON content properly
 app.use(json());
