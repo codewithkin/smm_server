@@ -1,8 +1,8 @@
 import { Router } from "express";
-import getProductsByCategory from "../../controllers/products/getProductsByCategory";
-import getProductById from "../../controllers/products/getProductById";
-import getAllProducts from "../../controllers/products/getAllProducts";
-import getProductsByPrice from "../../controllers/products/getProductsByPrice";
+import getProductsByCategory from "../../controllers/products/getProductsByCategory.js";
+import getProductById from "../../controllers/products/getProductById.js";
+import getAllProducts from "../../controllers/products/getAllProducts.js";
+import getProductsByPrice from "../../controllers/products/getProductsByPrice.js";
 
 export const productsRouter = Router();
 

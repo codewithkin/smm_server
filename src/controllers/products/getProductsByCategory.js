@@ -1,3 +1,6 @@
+import prisma from "../../../prisma/client.js";
+
+
 export default async function getProductsByCategory(req, res) {
     try {
          // get the products' category from query params

@@ -1,3 +1,6 @@
+import prisma from "../../../prisma/client.js";
+
+
 export default async function getProductById (req, res) {
     try {
         // get the product's id from query params
