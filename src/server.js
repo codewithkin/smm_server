@@ -1,9 +1,16 @@
-import express from "express";
+import express, { json } from "express";
 import { router } from "./routes/main";
 
 const app = express();
 
 // Middleware
+
+// Log requests (useful for dev debugging)
+app.use(morgan(":combined"));
+app.use(express.urlencoded({extended: true}))
+
+// Allow express to parse JSON content properly
+app.use(json());
 
 // Routes
 app.use("/api/smm", router);
