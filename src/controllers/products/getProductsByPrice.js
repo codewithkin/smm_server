@@ -3,6 +3,7 @@ import prisma from "../../lib/client.js";
 export default async function getProductsByPrice(req, res) {
   try {
     // Get the price range from query params
+    console.log("Quesy params: ", req.query);
     const { min, max } = req.query;
 
     if (!min || !max) {
