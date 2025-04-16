@@ -4,7 +4,7 @@ import { productsRouter } from "./products/main.js";
 export const router = Router();
 
 // Product routes
-router.get("/products", productsRouter);
+router.use("/products", productsRouter);
 
 // Checkout routes
 
