@@ -17,3 +17,29 @@ model Customer {
   lastPurchase DateTime? @default(now())
   purchases Json[]
 }
+
+model Product {
+  id            String   @id @default(uuid())
+  name          String
+  slug          String   @unique
+  brand         String
+  description   String
+  price         Float
+  discountPrice Float?   // optional, for promotions
+  inStock       Int
+  images        String[] // URLs of product images
+  storage       String   // e.g. "128GB"
+  color         String
+  network       String   // e.g. "5G", "4G"
+  simType       String   // e.g. "Dual SIM", "Single SIM"
+  condition     Condition
+  isFeatured    Boolean? @default(false)
+  isNewArrival  Boolean? @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+enum Condition {
+  New
+  Refurbished
+}
