@@ -14,8 +14,8 @@ export default async function createNewProduct (req, res) {
         // Return the product
         res.send("All is well that ends well...");
     } catch (e) {
-        console.log("Could now create new product: ", e);
+        console.log("Could not create new product: ", e);
 
-        res.status(500).send("Could now create new product")
+        res.status(500).send("Could not create new product")
     }
 }
