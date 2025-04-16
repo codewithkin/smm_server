@@ -10,7 +10,7 @@ export const productsRouter = Router();
 productsRouter.get("/", getAllProducts);
 
 // get products by category
-productsRouter.get("/category", getProductsByCategory);
+productsRouter.get("/category/:category", getProductsByCategory);
 
 // get products by price range
 productsRouter.get("/price", getProductsByPrice);
