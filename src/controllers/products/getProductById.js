@@ -3,7 +3,7 @@ import prisma from "../../lib/client.js";
 export default async function getProductById(req, res) {
   try {
     // Get the product's id from query params
-    const { id } = req.query;
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json({
