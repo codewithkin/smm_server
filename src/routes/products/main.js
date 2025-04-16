@@ -16,4 +16,4 @@ productsRouter.get("/category", getProductsByCategory);
 productsRouter.get("/price", getProductsByPrice);
 
 // get product by id
-productsRouter.get("/id", getProductById);
+productsRouter.get("/:id", getProductById);
