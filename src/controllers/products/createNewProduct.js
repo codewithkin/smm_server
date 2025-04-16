@@ -9,7 +9,12 @@ export default async function createNewProduct (req, res) {
             res.status(500).send("Data not provided, you messed up Kin");
         }
 
-        // Create a new product in the db
+        // Remove the product image's background
+
+        // Upload the product image without bg to cloudflare r1
+        // const uploaded=
+
+        // Create a new product in the db (with the product image without a bg)
 
         // Return the product
         res.send("All is well that ends well...");

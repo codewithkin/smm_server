@@ -9,3 +9,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Customer {
+  id String @id @default(cuid())
+  name  String
+  address String
+  spent Int? @default(0)
+  customerSince DateTime? @default(now())
+  lastPurchase DateTime? @default(now())
+  purchases Json[]
+}
