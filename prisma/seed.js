@@ -1,86 +1,67 @@
-import { PrismaClient } from "@prisma/client";
-import faker from "faker"; // for generating random customer and product data
+import { faker } from "@faker-js/faker";
+import prisma from "../src/lib/client.js";
 
-const prisma = new PrismaClient();
-
-async function seed() {
-  // Create 50 customers
-  const customers = [];
-  for (let i = 0; i < 50; i++) {
-    const customer = await prisma.customer.create({
-      data: {
-        name: faker.name.findName(),
-        address: faker.address.streetAddress(),
-        spent: faker.datatype.number({ min: 100, max: 5000 }),
-        customerSince: faker.date.past(),
-        lastPurchase: faker.date.recent(),
-        purchases: [],
-      },
-    });
-    customers.push(customer);
-  }
-
-  console.log("50 customers have been seeded!");
-
-  // Create 50 products
-  const products = [];
-  const imageURLs = [
-    "https://picsum.photos/200/300", // Placeholder image from Lorem Picsum
-    "https://picsum.photos/200/301", // Another example image
-    "https://picsum.photos/200/302", // And so on...
-  ];
+async function seedProducts() {
+  const conditions = ["New", "Refurbished"];
 
   for (let i = 0; i < 50; i++) {
-    const product = await prisma.product.create({
+    const name = faker.commerce.productName();
+    const slug = faker.helpers.slugify(name).toLowerCase();
+
+    await prisma.product.create({
       data: {
-        name: faker.commerce.productName(),
-        slug: faker.lorem.slug(),
-        brand: faker.company.companyName(),
-        description: faker.lorem.paragraph(),
-        price: parseFloat(faker.commerce.price()),
+        name,
+        slug,
+        brand: faker.company.name(),
+        description: faker.commerce.productDescription(),
+        price: Number(faker.commerce.price({ min: 100, max: 2000 })),
         discountPrice:
-          Math.random() < 0.5 ? parseFloat(faker.commerce.price()) : null,
-        inStock: faker.datatype.number({ min: 10, max: 100 }),
-        images: [imageURLs[i % imageURLs.length]], // Use an array with random image links
-        storage: faker.random.arrayElement(["128GB", "256GB", "512GB"]),
-        color: faker.commerce.color(),
-        network: faker.random.arrayElement(["5G", "4G", "LTE"]),
-        simType: faker.random.arrayElement(["Dual SIM", "Single SIM"]),
-        condition: faker.random.arrayElement(["New", "Refurbished"]),
-        isFeatured: Math.random() < 0.3, // 30% chance to be featured
-        isNewArrival: Math.random() < 0.5, // 50% chance to be a new arrival
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
-    products.push(product);
-  }
-
-  console.log("50 products have been seeded!");
-
-  // Create 50 purchases for customers
-  for (let i = 0; i < 50; i++) {
-    const customer = customers[i];
-    const product = products[i % 50]; // Random product from list
-
-    await prisma.purchase.create({
-      data: {
-        customerId: customer.id,
-        productId: product.id,
-        quantity: faker.datatype.number({ min: 1, max: 5 }),
-        price: product.price,
+          Math.random() > 0.5
+            ? Number(faker.commerce.price({ min: 50, max: 1000 }))
+            : null,
+        inStock: faker.number.int({ min: 1, max: 100 }),
+        images: [
+          faker.image.urlLoremFlickr({ category: "technology" }),
+          faker.image.urlLoremFlickr({ category: "gadgets" }),
+        ],
+        storage: `${faker.number.int({ min: 32, max: 512 })}GB`,
+        color: faker.color.human(),
+        network: faker.helpers.arrayElement(["5G", "4G"]),
+        simType: faker.helpers.arrayElement(["Dual SIM", "Single SIM"]),
+        condition: faker.helpers.arrayElement(conditions),
+        isFeatured: faker.datatype.boolean(),
+        isNewArrival: faker.datatype.boolean(),
       },
     });
   }
 
-  console.log("50 purchases have been made!");
+  console.log("✅ Seeded 50 products.");
 }
 
-seed()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+async function seedCustomers() {
+  for (let i = 0; i < 50; i++) {
+    await prisma.customer.create({
+      data: {
+        name: faker.person.fullName(),
+        address: faker.location.streetAddress(),
+        spent: faker.number.int({ min: 0, max: 5000 }),
+        customerSince: faker.date.past({ years: 5 }),
+        lastPurchase: faker.date.recent({ days: 30 }),
+      },
+    });
+  }
+
+  console.log("✅ Seeded 50 customers.");
+}
+
+async function main() {
+  await seedProducts();
+  await seedCustomers();
+  await prisma.$disconnect();
+}
+
+main().catch((e) => {
+  console.error(e);
+  prisma.$disconnect();
+  process.exit(1);
+});
