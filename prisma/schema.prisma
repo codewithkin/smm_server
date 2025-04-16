@@ -9,13 +9,13 @@ datasource db {
 }
 
 model Customer {
-  id String @id @default(cuid())
-  name  String
-  address String
-  spent Int? @default(0)
-  customerSince DateTime? @default(now())
-  lastPurchase DateTime? @default(now())
-  purchases Json[]
+  id             String   @id @default(cuid())
+  name           String
+  address        String
+  spent          Int?     @default(0)
+  customerSince  DateTime? @default(now())
+  lastPurchase   DateTime? @default(now())
+  purchases      Purchase[]
 }
 
 model Product {
@@ -37,9 +37,21 @@ model Product {
   isNewArrival  Boolean? @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  purchases     Purchase[]
 }
 
 enum Condition {
   New
   Refurbished
+}
+
+model Purchase {
+  id         String   @id @default(uuid())
+  quantity   Int
+  price      Float
+  customerId String
+  productId  String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id])
+  createdAt  DateTime @default(now())
 }
