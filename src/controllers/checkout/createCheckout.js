@@ -1,4 +1,4 @@
-import prisma from "../lib/client.js";
+import prisma from "../../lib/client.js";
 
 export default async function createCheckout(req, res) {
   try {

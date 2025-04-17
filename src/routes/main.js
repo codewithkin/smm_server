@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { productsRouter } from "./products/main.js";
+import { checkoutRoutes } from "./checkout/main.js";
 
 export const router = Router();
 
