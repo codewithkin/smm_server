@@ -21,11 +21,26 @@ export default async function getProductsByCategory(req, res) {
       take: limit,
     });
 
-    if (products.length > 0) return res.json(products);
+    const total = await prisma.product.count({
+      where: {
+        category: {
+          equals: category,
+          mode: "insensitive",
+        },
+      },
+    });
 
-    return res.status(404).json({ message: "No products found in this category" });
+    return res.json({ products, total });
+
+    return res
+      .status(404)
+      .json({ message: "No products found in this category" });
   } catch (e) {
     console.error("Error fetching products by category:", e);
-    res.status(500).json({ message: "An error occurred while fetching products by category" });
+    res
+      .status(500)
+      .json({
+        message: "An error occurred while fetching products by category",
+      });
   }
 }

@@ -12,7 +12,7 @@ app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
 
 // Allow cross-origin requests
-app.use(cors())
+app.use(cors());
 
 // Allow express to parse JSON content properly
 app.use(json());
