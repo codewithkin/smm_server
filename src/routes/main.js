@@ -7,6 +7,7 @@ export const router = Router();
 router.use("/products", productsRouter);
 
 // Checkout routes
+router.use("/checkout", checkoutRoutes);
 
 // Customer routes
 
