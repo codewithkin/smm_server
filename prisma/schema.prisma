@@ -17,6 +17,14 @@ model Customer {
   purchases     Purchase[]
 }
 
+model Checkout {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  totalAmount Float
+  itemCount   Int
+  items       Json      // You can store items as JSON for simplicity
+}
+
 model Product {
   id            String     @id @default(uuid())
   name          String
