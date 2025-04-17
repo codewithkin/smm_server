@@ -3,9 +3,11 @@ import prisma from "../../lib/client.js";
 export const getCheckoutById = async (req, res) => {
   const { id } = req.params;
 
+  console.log("Checkout id: ", id);
+
   try {
     const checkout = await prisma.checkout.findUnique({
-      where: { id: parseInt(id, 10) },
+      where: { id },
       include: {
         items: true, // Adjust this if your relation is named differently
       },
