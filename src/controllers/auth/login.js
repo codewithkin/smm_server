@@ -15,6 +15,7 @@ export default async function login(req, res) {
     // If the user exists...
     if (user) {
       // ... Check if the password is correct
+      const passwordIsCorrect = password === user.password;
 
       // If the password is correct...
       if (passwordIsCorrect) {
@@ -24,7 +25,7 @@ export default async function login(req, res) {
 
       // Otherwise return an error status and an error messsage
       return res.status(401).json({
-        message: `Incorrect password for user ${user.username}, please bouble-check and try again`,
+        message: `Incorrect password for user ${user.username}, please double-check and try again`,
       });
     }
 
