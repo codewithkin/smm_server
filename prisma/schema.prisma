@@ -24,6 +24,14 @@ model Checkout {
   items     CheckoutItem[]
 }
 
+model User {
+  id        String     @id @default(uuid())
+  username  String
+  password  String
+  role      String
+  createdAt     DateTime   @default(now())
+}
+
 model CheckoutItem {
   id         String   @id @default(uuid())
   name       String
