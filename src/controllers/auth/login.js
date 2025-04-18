@@ -20,7 +20,7 @@ export default async function login(req, res) {
       // If the password is correct...
       if (passwordIsCorrect) {
         // ..return a success status and the user in the request body
-        return res.status(200).json(user);
+        return res.status(200).json({ user });
       }
 
       // Otherwise return an error status and an error messsage
