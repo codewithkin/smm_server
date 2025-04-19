@@ -2,6 +2,7 @@ import express, { json } from "express";
 import { router } from "./routes/main.js";
 import morgan from "morgan";
 import cors from "cors";
+import { disableCaching } from "./middleware/disableCaching.js";
 
 const app = express();
 
@@ -10,6 +11,9 @@ const app = express();
 // Log requests (useful for dev debugging)
 app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
+
+// Apply globally (optional)
+app.use(disableCaching);
 
 // Allow cross-origin requests
 app.use(cors());
