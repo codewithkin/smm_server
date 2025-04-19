@@ -15,5 +15,7 @@ router.use("/checkout", checkoutRoutes);
 
 // User routes
 router.use("/auth", authRoutes);
+router.use("/notifications", notificationRoutes);
+
 
 // Data processing routes (excel, json, pdf conversions)
