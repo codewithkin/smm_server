@@ -2,6 +2,7 @@ import { Router } from "express";
 import { productsRouter } from "./products/main.js";
 import { checkoutRoutes } from "./checkout/main.js";
 import { authRoutes } from "./auth/main.js";
+import { notificationRoutes } from "./notifications/main.js";
 
 export const router = Router();
 
