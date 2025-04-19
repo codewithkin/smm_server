@@ -1,4 +1,5 @@
 import PDFDocument from "pdfkit";
+import prisma from "../../lib/client.js";
 
 // Controller to generate and download a receipt PDF
 export const downloadReceipt = async (req, res) => {

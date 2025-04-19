@@ -8,7 +8,7 @@ export const checkoutRoutes = Router();
 // Create a new checkout
 checkoutRoutes.post("/", createCheckout);
 
-checkoutRoutes.post("/download", downloadReceipt);
+checkoutRoutes.get("/download/:checkoutId", downloadReceipt);
 
 // Get a checkout by id
 checkoutRoutes.get("/:id", getCheckoutById);
