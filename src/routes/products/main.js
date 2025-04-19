@@ -4,6 +4,7 @@ import getProductById from "../../controllers/products/getProductById.js";
 import getAllProducts from "../../controllers/products/getAllProducts.js";
 import getProductsByPrice from "../../controllers/products/getProductsByPrice.js";
 import createNewProduct from "../../controllers/products/createNewProduct.js";
+import { deleteProduct } from "../../controllers/products/deleteProduct.js";
 
 export const productsRouter = Router();
 
@@ -21,3 +22,6 @@ productsRouter.get("/price", getProductsByPrice);
 
 // get product by id
 productsRouter.get("/:id", getProductById);
+
+// Delete a product
+productsRouter.delete("/:id", deleteProduct);
