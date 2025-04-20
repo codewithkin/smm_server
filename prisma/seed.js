@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import prisma from "../src/lib/client.js";
 
-async function seedProducts() {
-  const conditions = ["New", "Refurbished"];
+const CONDITIONS = ["New", "Refurbished"];
 
+async function seedProducts() {
   for (let i = 0; i < 50; i++) {
     const name = faker.commerce.productName();
     const slug = faker.helpers.slugify(name).toLowerCase();
@@ -28,7 +28,7 @@ async function seedProducts() {
         color: faker.color.human(),
         network: faker.helpers.arrayElement(["5G", "4G"]),
         simType: faker.helpers.arrayElement(["Dual SIM", "Single SIM"]),
-        condition: faker.helpers.arrayElement(conditions),
+        condition: faker.helpers.arrayElement(CONDITIONS),
         isFeatured: faker.datatype.boolean(),
         isNewArrival: faker.datatype.boolean(),
       },
