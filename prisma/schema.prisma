@@ -67,17 +67,12 @@ model Product {
   color         String
   network       String // e.g. "5G", "4G"
   simType       String // e.g. "Dual SIM", "Single SIM"
-  condition     Condition
+  condition     String?
   isFeatured    Boolean?   @default(false)
   isNewArrival  Boolean?   @default(false)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   purchases     Purchase[]
-}
-
-enum Condition {
-  New
-  Refurbished
 }
 
 model Purchase {
