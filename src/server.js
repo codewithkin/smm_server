@@ -3,6 +3,8 @@ import { router } from "./routes/main.js";
 import morgan from "morgan";
 import cors from "cors";
 import { disableCaching } from "./middleware/disableCaching.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 
@@ -11,6 +13,13 @@ const app = express();
 // Log requests (useful for dev debugging)
 app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
+
+// For ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "uploads" directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Apply globally (optional)
 app.use(disableCaching);

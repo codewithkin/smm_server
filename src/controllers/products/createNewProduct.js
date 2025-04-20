@@ -1,17 +1,24 @@
-import prisma from "../../lib/client.js";
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import slugify from "slugify";
+import { PrismaClient } from "@prisma/client";
 
-export default async function createNewProduct(req, res) {
+const prisma = new PrismaClient();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const createProduct = async (req, res) => {
   try {
-    // Extract the product's data from the request body
     const {
       name,
-      slug,
       brand,
+      category,
       description,
       price,
       discountPrice,
       inStock,
-      images,
       storage,
       color,
       network,
@@ -21,51 +28,70 @@ export default async function createNewProduct(req, res) {
       isNewArrival,
     } = req.body;
 
-    // Check if the required fields are provided
-    if (
-      !name ||
-      !slug ||
-      !brand ||
-      !description ||
-      !price ||
-      !inStock ||
-      !images ||
-      !storage ||
-      !color ||
-      !network ||
-      !simType ||
-      !condition
-    ) {
-      return res.status(400).json({
-        message: "Missing required product data",
-      });
+    if (!name || !price || !inStock) {
+      return res.status(400).json({ message: "Missing required fields." });
     }
 
-    // Create a new product in the database
-    const newProduct = await prisma.product.create({
+    const validConditions = ["New", "Refurbished"];
+
+    const normalizedCondition = validConditions.find(
+      (c) => c.toLowerCase() === condition.toLowerCase(),
+    );
+
+    if (!normalizedCondition) {
+      return res.status(400).json({ message: "Invalid product condition" });
+    }
+
+    let imageUrl = null;
+    if (req.file) {
+      const uploadsDir = path.join(__dirname, "../uploads");
+
+      // ✅ Ensure directory exists
+      if (!fs.existsSync(uploadsDir)) {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      }
+
+      const filename = `${Date.now()}-${req.file.originalname}`;
+      const filePath = path.join(uploadsDir, filename);
+
+      fs.writeFileSync(filePath, req.file.buffer);
+      imageUrl = `/uploads/${filename}`;
+    }
+
+    // Generate a slug based on the name
+    let baseSlug = slugify(name, { lower: true, strict: true });
+    let slug = baseSlug;
+    let counter = 1;
+
+    // Ensure uniqueness
+    while (await prisma.product.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter++}`;
+    }
+
+    const product = await prisma.product.create({
       data: {
         name,
         slug,
         brand,
+        category,
         description,
-        price,
-        discountPrice,
-        inStock,
-        images,
+        price: parseFloat(price),
+        discountPrice: discountPrice ? parseFloat(discountPrice) : null,
+        inStock: parseInt(inStock),
         storage,
         color,
         network,
         simType,
-        condition,
-        isFeatured,
-        isNewArrival,
+        condition: normalizedCondition,
+        isFeatured: isFeatured === "true",
+        isNewArrival: isNewArrival === "true",
+        images: imageUrl ? [imageUrl] : [],
       },
     });
 
-    // Return the created product as a response
-    res.status(201).json(newProduct);
-  } catch (e) {
-    console.log("Could not create new product: ", e);
-    res.status(500).send("Could not create new product");
+    res.status(201).json(product);
+  } catch (err) {
+    console.error("Error creating product:", err);
+    res.status(500).json({ message: "Something went wrong." });
   }
-}
+};

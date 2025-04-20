@@ -3,14 +3,18 @@ import getProductsByCategory from "../../controllers/products/getProductsByCateg
 import getProductById from "../../controllers/products/getProductById.js";
 import getAllProducts from "../../controllers/products/getAllProducts.js";
 import getProductsByPrice from "../../controllers/products/getProductsByPrice.js";
-import createNewProduct from "../../controllers/products/createNewProduct.js";
 import { deleteProduct } from "../../controllers/products/deleteProduct.js";
 import { editProduct } from "../../controllers/products/editProduct.js";
+import { createProduct } from "../../controllers/products/createNewProduct.js";
+import multer from "multer";
 
 export const productsRouter = Router();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
 // Create a new products
-productsRouter.post("/new", createNewProduct);
+productsRouter.post("/", upload.single("image"), createProduct);
 
 // get all products
 productsRouter.get("/", getAllProducts);
