@@ -29,7 +29,21 @@ export default async function login(req, res) {
       });
     }
 
-    // Otherwise...return an error
+    // Otherwise...return an error or create the user (dev mode)
+    if (process.env.NODE_ENV !== "production") {
+      await prisma.user.create({
+        data: {
+          username: "codewithkin",
+          password: "smm2025",
+          role: "admin",
+        },
+      });
+
+      return res.status(400).json({
+        message: "User does not exist, user has been created though...",
+      });
+    }
+
     res.status(404).json({
       message: "User does not exist, nice try though...",
     });
