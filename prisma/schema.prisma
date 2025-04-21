@@ -39,6 +39,7 @@ model User {
   username  String   @unique
   password  String
   role      String
+  expoPushToken   String?
   createdAt DateTime @default(now())
 }
 
