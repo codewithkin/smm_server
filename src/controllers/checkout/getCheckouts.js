@@ -1,5 +1,5 @@
-// /controllers/checkoutController.js
 import prisma from "../../lib/client.js";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
 export const getAllReceipts = async (req, res) => {
   try {
@@ -12,7 +12,7 @@ export const getAllReceipts = async (req, res) => {
 
     const enrichedReceipts = checkouts.map((checkout) => ({
       ...checkout,
-      downloadUrl: `https://yourdomain.com/receipts/${checkout.id}/download`, // Update this logic to generate your actual receipt download URL
+      downloadUrl: `checkout/${checkout.id}/download`,
     }));
 
     res.status(200).json({
