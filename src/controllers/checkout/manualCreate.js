@@ -26,7 +26,7 @@ export const createManualReceipt = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Checkout created successfully", id: checkout.id });
+      .json({ message: "Checkout created successfully", id: newCheckout.id });
   } catch (error) {
     console.error("Error creating manual receipt:", error);
     res.status(500).json({ error: "Failed to create receipt" });
