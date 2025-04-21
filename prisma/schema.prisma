@@ -47,7 +47,6 @@ model CheckoutItem {
   name       String
   price      Float
   quantity   Int
-  productId  String
   checkout   Checkout @relation(fields: [checkoutId], references: [id])
   checkoutId String
 }
